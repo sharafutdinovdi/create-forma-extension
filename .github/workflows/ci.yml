@@ -24,8 +24,8 @@ jobs:
           set -euo pipefail
           scratch=$(mktemp -d)
           trap 'rm -rf "$scratch"' EXIT
-          npm pack --pack-destination "$scratch"
-          tar -xzf "$scratch/create-forma-extension-0.1.0.tgz" -C "$scratch"
+          tarball="$(npm pack --pack-destination "$scratch" --json | node -p "JSON.parse(require('fs').readFileSync(0,'utf8'))[0].filename")"
+          tar -xzf "$scratch/$tarball" -C "$scratch"
           cli="$scratch/package/bin/create-forma-extension.mjs"
           project="$scratch/demo"
           node "$cli" --help
