@@ -29,7 +29,8 @@ jobs:
           cli="$scratch/package/bin/create-forma-extension.mjs"
           project="$scratch/demo"
           node "$cli" --help
-          test "$(node "$cli" --version)" = "0.1.0"
+          expected="$(node -p "require('./package.json').version")"
+          test "$(node "$cli" --version)" = "$expected"
           node "$cli" "$project" --name "Demo Extension" --yes
           test -f "$project/.gitignore"
           test ! -e "$project/_gitignore"
