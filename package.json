@@ -1,0 +1,22 @@
+{
+  "name": "create-forma-extension",
+  "version": "0.1.0",
+  "description": "Create an Autodesk Forma extension with Vite, TypeScript and native Autodesk UI.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Dinar Sharafutdinov",
+  "engines": { "node": ">=20" },
+  "bin": { "create-forma-extension": "bin/create-forma-extension.mjs" },
+  "files": ["bin/", "template/"],
+  "scripts": {
+    "build": "node scripts/sync-template.mjs",
+    "sync-template": "node scripts/sync-template.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sharafutdinovdi/create-forma-extension.git"
+  },
+  "bugs": { "url": "https://github.com/sharafutdinovdi/create-forma-extension/issues" },
+  "homepage": "https://github.com/sharafutdinovdi/create-forma-extension#readme",
+  "keywords": ["autodesk", "forma", "extension", "create", "vite", "typescript"]
+}

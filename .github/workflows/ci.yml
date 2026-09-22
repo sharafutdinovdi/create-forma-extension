@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Pack, scaffold and build
+        shell: bash
+        run: |
+          set -euo pipefail
+          scratch=$(mktemp -d)
+          trap 'rm -rf "$scratch"' EXIT
+          npm pack --pack-destination "$scratch"
+          tar -xzf "$scratch/create-forma-extension-0.1.0.tgz" -C "$scratch"
+          cli="$scratch/package/bin/create-forma-extension.mjs"
+          project="$scratch/demo"
+          node "$cli" --help
+          test "$(node "$cli" --version)" = "0.1.0"
+          node "$cli" "$project" --name "Demo Extension" --yes
+          test -f "$project/.gitignore"
+          test ! -e "$project/_gitignore"
+          test ! -e "$project/.github"
+          test ! -e "$project/scripts/rename.mjs"
+          test ! -e "$project/package-lock.json"
+          test ! -e "$project/docs/screens"
+          test -d "$project/.git"
+          test "$(git -C "$project" rev-list --all --count)" = "0"
+          set +e
+          node "$cli" "$project" --yes > "$scratch/refusal" 2>&1
+          refusal_status=$?
+          set -e
+          test "$refusal_status" = "1"
+          test "$(wc -l < "$scratch/refusal")" = "1"
+          cat "$scratch/refusal"
+          cd "$project"
+          npm install
+          npm run typecheck
+          npm run build
