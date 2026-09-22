@@ -1,15 +1,4 @@
-const decimal = new Intl.NumberFormat("en-US", {
-  useGrouping: false,
-  maximumFractionDigits: 15,
-});
-
-export function parseDecimal(raw: string): number | undefined {
-  const text = raw.trim();
-  if (!text) return undefined;
-  // Grouping is forbidden: a single comma always means the decimal separator.
-  return /^[+-]?(?:\d+(?:[.,]\d*)?|[.,]\d+)$/.test(text)
-    ? Number(text.replace(",", ".")) : NaN;
-}
+import { formatNumber, parseNumber } from "forma-extension-kit";
 
 export function numberInput(id: string, label: string, initial: number) {
   const field = document.createElement("div");
@@ -21,18 +10,18 @@ export function numberInput(id: string, label: string, initial: number) {
   input.id = id;
   input.type = "text";
   input.inputMode = "decimal";
-  input.value = decimal.format(initial);
+  input.value = formatNumber(initial);
   input.setAttribute("aria-describedby", "number-help");
   const validate = () => {
-    const value = parseDecimal(input.value);
-    const valid = value !== undefined && Number.isFinite(value) && value >= 0;
+    const value = parseNumber(input.value);
+    const valid = value !== null && value >= 0;
     input.setCustomValidity(valid ? "" : "Enter a non-negative number with . or , and no grouping separators.");
     input.setAttribute("aria-invalid", String(!valid));
     return valid;
   };
   input.addEventListener("input", validate);
   input.addEventListener("change", () => {
-    if (validate()) input.value = decimal.format(parseDecimal(input.value)!);
+    if (validate()) input.value = formatNumber(parseNumber(input.value)!);
     else input.reportValidity();
   });
   field.append(caption, input);

@@ -49,8 +49,8 @@ Expected errors exit with code 1 and a single-line message; successful commands 
 
 | Path | Contents |
 | --- | --- |
-| `package.json` | Private ESM package, display name, pinned SDK and development dependencies, development/typecheck/build scripts. |
-| `index.html`, `src/` | Native Autodesk controls, responsive panel layouts, proposal and footprint adapters, synthetic preview, loading/empty/error states. |
+| `package.json` | Private ESM package, display name, `forma-extension-kit` dependency, pinned SDK peer and development dependencies, development/typecheck/build scripts. |
+| `index.html`, `src/` | Native Autodesk controls, responsive panel layouts, host reads through `forma-extension-kit`, synthetic preview, loading/empty/error states. |
 | `forma/buttons.yaml` | Floating-panel button registration. |
 | `tsconfig.json`, `vite.config.ts` | Strict TypeScript and Vite on port 5173. |
 | `.editorconfig`, `.gitattributes`, `.gitignore` | Editor, line-ending and Git defaults. |

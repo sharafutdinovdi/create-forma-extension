@@ -1,8 +1,9 @@
-import type { ProposalSnapshot } from "./forma";
+import type { BuildingKind } from "forma-extension-kit";
+import type { ProposalView } from "./host";
 
 export type ViewState = "ready" | "empty" | "loading" | "error";
 
-export function fixtureData(empty = false): ProposalSnapshot {
+export function fixtureData(empty = false): ProposalView {
   return {
     rootUrn: "fixture-root",
     proposalId: "fixture-proposal",
@@ -11,7 +12,7 @@ export function fixtureData(empty = false): ProposalSnapshot {
     siteLimitPaths: empty ? [] : ["root/site"],
     buildings: empty ? [] : ["proposal", "proposal", "existing"].map((kind, index) => ({
       path: index === 2 ? "root/base/context" : `root/proposal-${index === 0 ? "a" : "b"}`,
-      kind: kind as "proposal" | "existing",
+      kind: kind as BuildingKind,
     })),
   };
 }

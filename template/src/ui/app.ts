@@ -1,4 +1,4 @@
-import type { ProposalSnapshot } from "../forma";
+import type { ProposalView } from "../host";
 import type { ViewState } from "../fixture";
 import { metricRow } from "./metric-row";
 import { numberInput } from "./number-input";
@@ -43,7 +43,7 @@ export function createApp(root: HTMLElement, fixture: boolean, refresh: () => vo
   help.textContent = "Decimal input example. It does not change the building count.";
   controls.append(help);
 
-  let snapshot: ProposalSnapshot | null = null;
+  let snapshot: ProposalView | null = null;
   let scope = "all";
   let state: ViewState = "loading";
   const paintMetric = () => {
@@ -78,7 +78,7 @@ export function createApp(root: HTMLElement, fixture: boolean, refresh: () => vo
   });
 
   return {
-    render(next: ViewState, data: ProposalSnapshot | null, message: string) {
+    render(next: ViewState, data: ProposalView | null, message: string) {
       state = next;
       snapshot = data;
       root.dataset.state = state;

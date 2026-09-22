@@ -1,4 +1,4 @@
-const format = new Intl.NumberFormat("en-US");
+import { formatNumber } from "forma-extension-kit";
 
 export function metricRow(label: string, unit = "") {
   const row = document.createElement("div");
@@ -13,5 +13,5 @@ export function metricRow(label: string, unit = "") {
   suffix.textContent = unit ? ` ${unit}` : "";
   value.append(amount, suffix);
   row.append(caption, value);
-  return { row, set: (number: number | null) => { amount.textContent = number === null ? "—" : format.format(number); } };
+  return { row, set: (number: number | null) => { amount.textContent = number === null ? "—" : formatNumber(number); } };
 }
