@@ -48,6 +48,6 @@ jobs:
           test "$(wc -l < "$scratch/refusal")" = "1"
           cat "$scratch/refusal"
           cd "$project"
-          npm install
+          npm install --ignore-scripts
           npm run typecheck
           npm run build
